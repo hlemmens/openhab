@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<binding:binding id="wmr"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:binding="http://eclipse.org/smarthome/schemas/binding/v1.0.0"
+        xsi:schemaLocation="http://eclipse.org/smarthome/schemas/binding/v1.0.0 http://eclipse.org/smarthome/schemas/binding-1.0.0.xsd">
+
+	<name>WMR Weather Station Binding</name>
+	<description>The WMR Binding binding</description>
+	<author>Christian Sowada</author>
+
+	<config-description>
+
+		<parameter name="host" type="text" required="false">
+			<context>network_address</context>
+			<label>hostname address</label>
+			<description>The IP address to use for connecting to the Ethernet interface.</description>
+		</parameter>
+
+		<parameter name="port" type="integer" min="0" required="false">
+			<label>TCP port</label>
+			<description>The TCP port to use for connecting to the Ethernet interface.</description>
+		</parameter>
+
+	</config-description>
+</binding:binding>
