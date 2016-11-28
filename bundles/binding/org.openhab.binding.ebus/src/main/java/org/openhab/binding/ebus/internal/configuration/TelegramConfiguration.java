@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * This class stores the json configuration files for an eBus bytes telegram.
@@ -21,7 +23,11 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Christian Sowada
  * @since 1.8.0
  */
+@JsonPropertyOrder({ "comment", "device", "id", "clazz", "command", "data", "src", "dst", "debug", "computedValues",
+        "values" })
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+
 public class TelegramConfiguration {
 
     private Pattern cfilter;
@@ -40,7 +46,7 @@ public class TelegramConfiguration {
 
     /**
      * The class of the eBus telegram
-     * 
+     *
      * @return
      */
     @JsonProperty("class")
@@ -50,7 +56,7 @@ public class TelegramConfiguration {
 
     /**
      * The command bytes of the eBus telegram
-     * 
+     *
      * @return
      */
     public String getCommand() {
@@ -59,7 +65,7 @@ public class TelegramConfiguration {
 
     /**
      * The comment of the eBus telegram
-     * 
+     *
      * @return
      */
     public String getComment() {
@@ -68,7 +74,7 @@ public class TelegramConfiguration {
 
     /**
      * The computed values of the eBus telegram (optional)
-     * 
+     *
      * @return
      */
     public Map<String, TelegramValue> getComputedValues() {
@@ -77,7 +83,7 @@ public class TelegramConfiguration {
 
     /**
      * The data bytes of the eBus telegram
-     * 
+     *
      * @return
      */
     public String getData() {
@@ -86,7 +92,7 @@ public class TelegramConfiguration {
 
     /**
      * A debug flag for this telegram
-     * 
+     *
      * @return
      */
     public Integer getDebug() {
@@ -95,7 +101,7 @@ public class TelegramConfiguration {
 
     /**
      * The device that should work with this telegram
-     * 
+     *
      * @return
      */
     public String getDevice() {
@@ -104,7 +110,7 @@ public class TelegramConfiguration {
 
     /**
      * The destination byte of the eBus telegram
-     * 
+     *
      * @return
      */
     public String getDst() {
@@ -113,7 +119,7 @@ public class TelegramConfiguration {
 
     /**
      * The filter string (regex)
-     * 
+     *
      * @return
      */
     public String getFilter() {
@@ -122,7 +128,7 @@ public class TelegramConfiguration {
 
     /**
      * The compiled filter pattern
-     * 
+     *
      * @return
      */
     public Pattern getFilterPattern() {
@@ -131,7 +137,7 @@ public class TelegramConfiguration {
 
     /**
      * The ID of the eBus telegram
-     * 
+     *
      * @return
      */
     public String getId() {
@@ -140,7 +146,7 @@ public class TelegramConfiguration {
 
     /**
      * A list of values of the eBus telegram
-     * 
+     *
      * @return
      */
     public Map<String, TelegramValue> getValues() {
@@ -234,7 +240,7 @@ public class TelegramConfiguration {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -246,7 +252,7 @@ public class TelegramConfiguration {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -260,7 +266,7 @@ public class TelegramConfiguration {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override

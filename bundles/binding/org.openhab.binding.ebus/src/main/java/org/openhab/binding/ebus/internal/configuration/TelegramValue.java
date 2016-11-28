@@ -16,6 +16,8 @@ import javax.script.CompiledScript;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * This class stores the values of an eBus bytes telegram.
@@ -23,7 +25,9 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * @author Christian Sowada
  * @since 1.8.0
  */
+@JsonPropertyOrder({ "type", "pos", "label", "factor", "min", "max" })
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 public class TelegramValue {
 
     private Integer bit;
@@ -43,7 +47,7 @@ public class TelegramValue {
 
     /**
      * Returns a bit of
-     * 
+     *
      * @return
      */
     public Integer getBit() {
@@ -52,7 +56,7 @@ public class TelegramValue {
 
     /**
      * Returns compiled script
-     * 
+     *
      * @return
      */
     public CompiledScript getCsript() {
@@ -61,7 +65,7 @@ public class TelegramValue {
 
     /**
      * Get debug string
-     * 
+     *
      * @return
      */
     public String getDebug() {
@@ -70,7 +74,7 @@ public class TelegramValue {
 
     /**
      * Returns factor
-     * 
+     *
      * @return
      */
     public BigDecimal getFactor() {
@@ -79,7 +83,7 @@ public class TelegramValue {
 
     /**
      * Returns label of value
-     * 
+     *
      * @return
      */
     public String getLabel() {
@@ -88,7 +92,7 @@ public class TelegramValue {
 
     /**
      * Returns mapping to this value
-     * 
+     *
      * @return
      */
     public Map<String, String> getMapping() {
@@ -97,7 +101,7 @@ public class TelegramValue {
 
     /**
      * Get max value
-     * 
+     *
      * @return
      */
     public BigDecimal getMax() {
@@ -106,7 +110,7 @@ public class TelegramValue {
 
     /**
      * Get min value
-     * 
+     *
      * @return
      */
     public BigDecimal getMin() {
@@ -115,7 +119,7 @@ public class TelegramValue {
 
     /**
      * Get telegram position for this value
-     * 
+     *
      * @return
      */
     public Integer getPos() {
@@ -124,7 +128,7 @@ public class TelegramValue {
 
     /**
      * Get replace value
-     * 
+     *
      * @return
      */
     public BigDecimal getReplaceValue() {
@@ -133,7 +137,7 @@ public class TelegramValue {
 
     /**
      * Returns uncompiled script
-     * 
+     *
      * @return
      */
     public String getScript() {
@@ -142,7 +146,7 @@ public class TelegramValue {
 
     /**
      * Returns the step wide for this value
-     * 
+     *
      * @return
      */
     public String getStep() {
@@ -151,7 +155,7 @@ public class TelegramValue {
 
     /**
      * Returns the value eBus type
-     * 
+     *
      * @return
      */
     public String getType() {
@@ -160,7 +164,7 @@ public class TelegramValue {
 
     /**
      * Returns a hint for documentation
-     * 
+     *
      * @return
      */
     public String getTypeHint() {
@@ -268,7 +272,7 @@ public class TelegramValue {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -280,7 +284,7 @@ public class TelegramValue {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -295,7 +299,7 @@ public class TelegramValue {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
