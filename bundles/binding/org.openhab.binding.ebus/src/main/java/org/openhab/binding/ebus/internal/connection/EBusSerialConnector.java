@@ -53,12 +53,13 @@ public class EBusSerialConnector extends AbstractEBusWriteConnector implements S
      * @param port
      */
     public EBusSerialConnector(String port) {
+        logger.info("Use RX/TX EBus connector !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         this.port = port;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.openhab.binding.ebus.connection.AbstractEBusConnector#connect()
      */
     @Override
@@ -106,7 +107,7 @@ public class EBusSerialConnector extends AbstractEBusWriteConnector implements S
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.openhab.binding.ebus.connection.AbstractEBusConnector#disconnect()
      */
     @Override
@@ -145,7 +146,7 @@ public class EBusSerialConnector extends AbstractEBusWriteConnector implements S
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see gnu.io.SerialPortEventListener#serialEvent(gnu.io.SerialPortEvent)
      */
     @Override
@@ -159,7 +160,7 @@ public class EBusSerialConnector extends AbstractEBusWriteConnector implements S
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.openhab.binding.ebus.internal.connection.AbstractEBusConnector#readByte()
      */
     @Override
@@ -187,7 +188,7 @@ public class EBusSerialConnector extends AbstractEBusWriteConnector implements S
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.openhab.binding.ebus.internal.connection.AbstractEBusWriteConnector#writeByte(int)
      */
     @Override

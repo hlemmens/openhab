@@ -57,7 +57,7 @@ public abstract class AbstractEBusConnector extends Thread {
     /**
      * Connects the connector to its backend system. It's important
      * to connect before start the thread.
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -68,7 +68,7 @@ public abstract class AbstractEBusConnector extends Thread {
 
     /**
      * Disconnects the connector from its backend system.
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -79,7 +79,7 @@ public abstract class AbstractEBusConnector extends Thread {
 
     /**
      * Add an eBus listener to receive valid eBus telegrams
-     * 
+     *
      * @param listener
      */
     public void addEBusEventListener(EBusConnectorEventListener listener) {
@@ -88,7 +88,7 @@ public abstract class AbstractEBusConnector extends Thread {
 
     /**
      * Remove an eBus listener
-     * 
+     *
      * @param listener
      * @return
      */
@@ -100,7 +100,7 @@ public abstract class AbstractEBusConnector extends Thread {
      * Reconnect to the eBus up to 50 times. Connection can be lost by restart
      * heating system etc. Warning, can cause an file handler issue
      * on Linux (Windows not tested!) with serial connections.
-     * 
+     *
      * @throws IOException
      * @throws InterruptedException
      */
@@ -129,7 +129,7 @@ public abstract class AbstractEBusConnector extends Thread {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Thread#run()
      */
     @Override
@@ -139,7 +139,7 @@ public abstract class AbstractEBusConnector extends Thread {
         threadPool = Executors.newCachedThreadPool(new WorkerThreadFactory("ebus-send-receive"));
 
         int read = -1;
-        
+
         // loop until interrupt or reconnector count is -1 (to many retries)
         while (!isInterrupted() || reConnectCounter == -1) {
             try {
@@ -156,6 +156,7 @@ public abstract class AbstractEBusConnector extends Thread {
 
                     if (read == -1) {
                         logger.debug("eBUS read timeout occured, no data on bus ...");
+                        inputBuffer.clear();
 
                     } else {
 
@@ -229,7 +230,7 @@ public abstract class AbstractEBusConnector extends Thread {
 
     /**
      * Called event if a SYN packet has been received
-     * 
+     *
      * @throws IOException
      */
     protected void onEBusSyncReceived(boolean allowSend) throws IOException {
@@ -256,7 +257,7 @@ public abstract class AbstractEBusConnector extends Thread {
     /**
      * Called if a valid eBus telegram was received. Send to event
      * listeners via thread pool to prevent blocking.
-     * 
+     *
      * @param telegram
      */
     protected void onEBusTelegramReceived(final byte[] receivedTelegram) {
@@ -285,7 +286,7 @@ public abstract class AbstractEBusConnector extends Thread {
 
     /**
      * Reads one byte from backend
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -293,7 +294,7 @@ public abstract class AbstractEBusConnector extends Thread {
 
     /**
      * Returns true if the receive buffer is empty, in this case the line is free to send
-     * 
+     *
      * @return
      * @throws IOException
      */
@@ -301,7 +302,7 @@ public abstract class AbstractEBusConnector extends Thread {
 
     /**
      * Returns if the connection is already connected to the backend
-     * 
+     *
      * @return
      */
     protected abstract boolean isConnected();

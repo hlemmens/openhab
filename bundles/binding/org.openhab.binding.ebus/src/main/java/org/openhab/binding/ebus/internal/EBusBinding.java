@@ -22,6 +22,7 @@ import org.openhab.binding.ebus.EBusBindingProvider;
 import org.openhab.binding.ebus.internal.connection.AbstractEBusWriteConnector;
 import org.openhab.binding.ebus.internal.connection.EBusCommandProcessor;
 import org.openhab.binding.ebus.internal.connection.EBusConnectorEventListener;
+import org.openhab.binding.ebus.internal.connection.EBusSerialConnector2;
 import org.openhab.binding.ebus.internal.connection.EBusTCPConnector;
 import org.openhab.binding.ebus.internal.parser.EBusConfigurationProvider;
 import org.openhab.binding.ebus.internal.parser.EBusTelegramCSVWriter;
@@ -214,33 +215,48 @@ public class EBusBinding extends AbstractBinding<EBusBindingProvider>
             // use the serial connector
             if (StringUtils.isNotEmpty((String) properties.get("serialPort"))) {
 
-                try {
-                    // load class by reflection to keep gnu.io (serial) optional. Declarative Services causes an
-                    // class not found exception, also if serial is not used!
-                    // FIXME: Is there a better way to avoid that a class not found exception?
-                    @SuppressWarnings("unchecked")
-                    Class<AbstractEBusWriteConnector> _tempClass = (Class<AbstractEBusWriteConnector>) EBusBinding.class
-                            .getClassLoader()
-                            .loadClass("org.openhab.binding.ebus.internal.connection.EBusSerialConnector");
+                boolean useJSSC = false;
 
-                    Constructor<AbstractEBusWriteConnector> constructor = _tempClass
-                            .getDeclaredConstructor(String.class);
-                    connector = constructor.newInstance((String) properties.get("serialPort"));
+                if (properties.get("useJSSC") != null) {
+                    if (properties.get("useJSSC").equals("true")) {
+                        logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        useJSSC = true;
+                    }
+                }
 
-                } catch (ClassNotFoundException e) {
-                    logger.error(e.toString(), e);
-                } catch (NoSuchMethodException e) {
-                    logger.error(e.toString(), e);
-                } catch (SecurityException e) {
-                    logger.error(e.toString(), e);
-                } catch (InstantiationException e) {
-                    logger.error(e.toString(), e);
-                } catch (IllegalAccessException e) {
-                    logger.error(e.toString(), e);
-                } catch (IllegalArgumentException e) {
-                    logger.error(e.toString(), e);
-                } catch (InvocationTargetException e) {
-                    logger.error(e.toString(), e);
+                if (useJSSC) {
+
+                    connector = new EBusSerialConnector2((String) properties.get("serialPort"));
+
+                } else {
+                    try {
+                        // load class by reflection to keep gnu.io (serial) optional. Declarative Services causes an
+                        // class not found exception, also if serial is not used!
+                        // FIXME: Is there a better way to avoid that a class not found exception?
+                        @SuppressWarnings("unchecked")
+                        Class<AbstractEBusWriteConnector> _tempClass = (Class<AbstractEBusWriteConnector>) EBusBinding.class
+                                .getClassLoader()
+                                .loadClass("org.openhab.binding.ebus.internal.connection.EBusSerialConnector");
+
+                        Constructor<AbstractEBusWriteConnector> constructor = _tempClass
+                                .getDeclaredConstructor(String.class);
+                        connector = constructor.newInstance((String) properties.get("serialPort"));
+
+                    } catch (ClassNotFoundException e) {
+                        logger.error(e.toString(), e);
+                    } catch (NoSuchMethodException e) {
+                        logger.error(e.toString(), e);
+                    } catch (SecurityException e) {
+                        logger.error(e.toString(), e);
+                    } catch (InstantiationException e) {
+                        logger.error(e.toString(), e);
+                    } catch (IllegalAccessException e) {
+                        logger.error(e.toString(), e);
+                    } catch (IllegalArgumentException e) {
+                        logger.error(e.toString(), e);
+                    } catch (InvocationTargetException e) {
+                        logger.error(e.toString(), e);
+                    }
                 }
 
             } else if (StringUtils.isNotEmpty((String) properties.get("hostname"))) {

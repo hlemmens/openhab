@@ -61,7 +61,7 @@ public abstract class AbstractEBusWriteConnector extends AbstractEBusConnector {
 
     /**
      * Returns the eBus binding used sender Id
-     * 
+     *
      * @return
      */
     public byte getSenderId() {
@@ -70,7 +70,7 @@ public abstract class AbstractEBusWriteConnector extends AbstractEBusConnector {
 
     /**
      * Set the eBus binding sender Id
-     * 
+     *
      * @param senderId The new id, default is 0xFF
      */
     public void setSenderId(byte senderId) {
@@ -79,7 +79,7 @@ public abstract class AbstractEBusWriteConnector extends AbstractEBusConnector {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.openhab.binding.ebus.internal.connection.AbstractEBusConnector#connect()
      */
     @Override
@@ -99,7 +99,7 @@ public abstract class AbstractEBusWriteConnector extends AbstractEBusConnector {
 
     /**
      * Add a byte array to send queue.
-     * 
+     *
      * @param data
      * @return
      */
@@ -174,7 +174,7 @@ public abstract class AbstractEBusWriteConnector extends AbstractEBusConnector {
 
     /**
      * Internal send function. Send and read to detect byte collisions.
-     * 
+     *
      * @param secondTry
      * @throws IOException
      */
@@ -201,13 +201,24 @@ public abstract class AbstractEBusWriteConnector extends AbstractEBusConnector {
         for (int i = 0; i < dataOutputBuffers.length; i++) {
             byte b = dataOutputBuffers[i];
 
+            readWriteDelay = System.nanoTime();
             writeByte(b);
 
+            readWriteDelay = (System.nanoTime() - readWriteDelay) / 1000;
+
+            logger.info("write delay " + readWriteDelay + " us");
+
             if (i == 0) {
+
+                readWriteDelay = System.nanoTime();
 
                 read = readByte(true);
                 readByte = (byte) (read & 0xFF);
                 sendBuffer.put(readByte);
+
+                readWriteDelay = (System.nanoTime() - readWriteDelay) / 1000;
+
+                logger.info("read delay " + readWriteDelay + " us");
 
                 if (b != readByte) {
 
@@ -263,7 +274,13 @@ public abstract class AbstractEBusWriteConnector extends AbstractEBusConnector {
 
             // copy input data to result buffer
             sendBuffer.put(dataOutputBuffers, 1, dataOutputBuffers.length - 1);
-            getInputStream().skip(dataOutputBuffers.length - 1);
+
+            for (int i = 0; i < dataOutputBuffers.length - 1; i++) {
+                readByte(true);
+            }
+
+            // getInputStream().skip(dataOutputBuffers.length - 1);
+
             readWriteDelay = (System.nanoTime() - readWriteDelay) / 1000;
 
             logger.trace("readin delay " + readWriteDelay);
@@ -380,7 +397,7 @@ public abstract class AbstractEBusWriteConnector extends AbstractEBusConnector {
 
     /**
      * Resend data if it's the first try or call resetSend()
-     * 
+     *
      * @param secondTry
      * @return
      * @throws IOException
@@ -416,7 +433,7 @@ public abstract class AbstractEBusWriteConnector extends AbstractEBusConnector {
 
     /**
      * Called event if a SYN packet has been received
-     * 
+     *
      * @throws IOException
      */
     @Override
@@ -435,7 +452,7 @@ public abstract class AbstractEBusWriteConnector extends AbstractEBusConnector {
 
     /**
      * Writes one byte to the backend
-     * 
+     *
      * @param b
      * @throws IOException
      */
@@ -443,14 +460,14 @@ public abstract class AbstractEBusWriteConnector extends AbstractEBusConnector {
 
     /**
      * Resets the input buffer of input stream
-     * 
+     *
      * @throws IOException
      */
     protected abstract void resetInputBuffer() throws IOException;
 
     /**
      * Return the undelaying input stream
-     * 
+     *
      * @return
      */
     protected abstract InputStream getInputStream();
