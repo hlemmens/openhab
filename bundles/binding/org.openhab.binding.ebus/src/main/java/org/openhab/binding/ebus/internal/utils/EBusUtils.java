@@ -162,7 +162,7 @@ public class EBusUtils {
             for (byte b : data) {
                 if (b == (byte) 0xAA) {
                     byteBuffer.write(new byte[] { (byte) 0xA9, (byte) 0x01 });
-                } else if (b == (byte) 0x9A) {
+                } else if (b == (byte) 0xA9) {
                     byteBuffer.write(new byte[] { (byte) 0xA9, (byte) 0x00 });
                 } else {
                     byteBuffer.write(b);
