@@ -56,7 +56,7 @@ public class EBusCommandProcessor implements BindingChangeListener {
     }
 
     /**
-     * 
+     *
      */
     public void deactivate() {
         if (scheduler != null) {
@@ -66,7 +66,7 @@ public class EBusCommandProcessor implements BindingChangeListener {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.openhab.core.binding.BindingChangeListener#allBindingsChanged(org.openhab.core.binding.BindingProvider)
      */
     @Override
@@ -85,7 +85,7 @@ public class EBusCommandProcessor implements BindingChangeListener {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.openhab.core.binding.BindingChangeListener#bindingChanged(org.openhab.core.binding.BindingProvider,
      * java.lang.String)
      */
@@ -127,7 +127,7 @@ public class EBusCommandProcessor implements BindingChangeListener {
                 futureMap.remove(itemName).cancel(true);
             }
 
-            if(scheduler == null) {
+            if (scheduler == null) {
                 scheduler = Executors.newScheduledThreadPool(2, new WorkerThreadFactory("ebus-scheduler"));
             }
 
@@ -160,7 +160,7 @@ public class EBusCommandProcessor implements BindingChangeListener {
      * @param values
      * @return
      */
-    private byte[] composeEBusTelegram(String commandId, Byte dst, Byte src, Map<String, Object> values) {
+    public byte[] composeEBusTelegram(String commandId, Byte dst, Byte src, Map<String, Object> values) {
 
         if (configurationProvider == null || configurationProvider.isEmpty()) {
             logger.debug("eBUS configuration provider not ready, can't get send data yet.");
@@ -184,15 +184,16 @@ public class EBusCommandProcessor implements BindingChangeListener {
             byte[] bytesData = EBusUtils.toByteArray(commandCfg.getData());
             byte[] bytesCmd = EBusUtils.toByteArray(commandCfg.getCommand());
 
-            buffer = new byte[bytesData.length + 6];
-            buffer[0] = src;
-            buffer[1] = dst;
-            buffer[4] = (byte) bytesData.length;
-            System.arraycopy(bytesCmd, 0, buffer, 2, bytesCmd.length);
-
             if (values == null || values.isEmpty()) {
                 logger.trace("No setter-values for eBUS telegram, used default data ...");
+
+                buffer = new byte[bytesData.length + 6];
+                buffer[0] = src;
+                buffer[1] = dst;
+                buffer[4] = (byte) bytesData.length;
+                System.arraycopy(bytesCmd, 0, buffer, 2, bytesCmd.length);
                 System.arraycopy(bytesData, 0, buffer, 5, bytesData.length);
+
                 return buffer;
             }
 
@@ -262,6 +263,12 @@ public class EBusCommandProcessor implements BindingChangeListener {
             }
 
             bytesData = EBusUtils.encodeEBusData(bytesData);
+
+            buffer = new byte[bytesData.length + 6];
+            buffer[0] = src;
+            buffer[1] = dst;
+            buffer[4] = (byte) bytesData.length;
+            System.arraycopy(bytesCmd, 0, buffer, 2, bytesCmd.length);
             System.arraycopy(bytesData, 0, buffer, 5, bytesData.length);
 
             return buffer;
