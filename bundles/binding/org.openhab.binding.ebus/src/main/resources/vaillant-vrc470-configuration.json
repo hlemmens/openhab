@@ -160,7 +160,20 @@
                 "mapping": {"0":"Off", "1":"Manual", "2":"Auto", "3":"Day", "4":"Night", "5":"Summer"}}
         }
     },
+    {
+        "comment": "<Heating> HC2 Operation mode",
+        "device":  "Vaillant VRC 470",
+        "id":      "program_heating_circuit_2",
+        "class":   "heating",
+        "command": "B5 09",
+        "data":    "0D 31 00",
+        "dst":     "50",
 
+        "values": {
+            "program": {"type": "uchar", "pos": 12, "label": "HC1 Operation mode",
+                "mapping": {"0":"Off", "1":"Manual", "2":"Auto", "3":"Day", "4":"Night", "5":"Summer"}}
+        }
+    },
     {
         "comment": "<Heating> Set HC1 Operation mode",
         "device":  "Vaillant VRC 470",
@@ -175,7 +188,20 @@
                 "mapping": {"0":"Off", "1":"Manual", "2":"Auto", "3":"Day", "4":"Night", "5":"Summer"}}
         }
     },
+    {
+	"comment": "<Heating> Set HC2 Operation mode",
+        "device":  "Vaillant VRC 470",
+	"id":      "set_program_heating_circuit_2",
+	"class":   "heating",   
+	"command": "B5 09",
+	"data":    "0E 31 00 00",
+	"dst":     "50",
 
+	"values": {
+	    "program": {"type": "uchar", "pos": 9, "label": "HC2 Operation",
+	        "mapping": {"0":"Off", "1":"Manual", "2":"Auto", "3":"Day", "4":"Night", "5":"Summer"}}
+	}
+    },
     {
         "comment": "<Heating> HC1 Special operation mode",
         "device":  "Vaillant VRC 470",
