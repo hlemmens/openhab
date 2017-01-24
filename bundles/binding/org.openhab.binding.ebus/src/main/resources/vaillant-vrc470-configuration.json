@@ -160,6 +160,7 @@
                 "mapping": {"0":"Off", "1":"Manual", "2":"Auto", "3":"Day", "4":"Night", "5":"Summer"}}
         }
     },
+	
     {
         "comment": "<Heating> HC2 Operation mode",
         "device":  "Vaillant VRC 470",
@@ -174,6 +175,7 @@
                 "mapping": {"0":"Off", "1":"Manual", "2":"Auto", "3":"Day", "4":"Night", "5":"Summer"}}
         }
     },
+	
     {
         "comment": "<Heating> Set HC1 Operation mode",
         "device":  "Vaillant VRC 470",
@@ -188,6 +190,7 @@
                 "mapping": {"0":"Off", "1":"Manual", "2":"Auto", "3":"Day", "4":"Night", "5":"Summer"}}
         }
     },
+	
     {
 	"comment": "<Heating> Set HC2 Operation mode",
         "device":  "Vaillant VRC 470",
@@ -202,6 +205,7 @@
 	        "mapping": {"0":"Off", "1":"Manual", "2":"Auto", "3":"Day", "4":"Night", "5":"Summer"}}
 	}
     },
+	
     {
         "comment": "<Heating> HC1 Special operation mode",
         "device":  "Vaillant VRC 470",
